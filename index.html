@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login teszt</title>
+</head>
+<body>
+
+<h2>Telefon / küldő</h2>
+<input id="email" placeholder="email"><br><br>
+<input id="password" placeholder="jelszó"><br><br>
+<button onclick="send()">Küldés</button>
+
+<hr>
+
+<h2>Gép / fogadó</h2>
+<p id="output">Nincs adat</p>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+
+  function send() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    socket.emit("loginData", { email, password });
+  }
+
+  socket.on("showData", (data) => {
+    document.getElementById("output").innerText =
+      "Email: " + data.email + " | Jelszó: " + data.password;
+  });
+</script>
+
+</body>
+</html>
